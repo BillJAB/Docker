@@ -1,0 +1,23 @@
+nano /etc/my_wordpress/nginx/default.conf
+
+server {
+    listen 80;
+    server_name _;
+
+    root /var/www/html;
+    index index.php index.html;
+
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_pass wordpress-php:9000;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+}
+
+6. Lancement du projet
+docker-compose up -d
+docker ps
